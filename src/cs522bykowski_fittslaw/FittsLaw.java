@@ -10,6 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  *
@@ -20,12 +22,14 @@ public class FittsLaw extends javax.swing.JFrame {
     private long endTime;
     private long times[] = new long[6];
     private int count = 0;
-    //javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+    private Integer nums[] = new Integer[]{0, 1, 2, 3, 4, 5};
 
     /**
      * Creates new form FittsLaw
      */
     public FittsLaw() {
+        Collections.shuffle(Arrays.asList(nums));  //make targets show randomly
+        System.out.println(java.util.Arrays.toString(nums));   //////TESTING REMOVE
         initComponents();
     }
 
@@ -180,24 +184,24 @@ public class FittsLaw extends javax.swing.JFrame {
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         startTime = System.currentTimeMillis();
         
-        switch(count) {
+        switch(nums[count]) {
             case 0: 
-                target1c.setVisible(true);
+                target1a.setVisible(true); //top small
                 break;
             case 1:
-                target2b.setVisible(true);
+                target2a.setVisible(true); //top big
                 break;
             case 2:
-                target2c.setVisible(true);
+                target1b.setVisible(true); //middle small
                 break;
             case 3:
-                target1a.setVisible(true);
+                target2b.setVisible(true); //middle big
                 break;
             case 4:
-                target1b.setVisible(true);
+                target1c.setVisible(true);  //bottom small
                 break;
             case 5:
-                target2a.setVisible(true);
+                target2c.setVisible(true);  //bottom big
                 break;
             default:
                 System.exit(0);
@@ -231,16 +235,16 @@ public class FittsLaw extends javax.swing.JFrame {
 
     private void targetPressed() {
         endTime = System.currentTimeMillis();
-        times[count] = endTime - startTime;
+        times[nums[count]] = endTime - startTime;
         hideButtons();
-        System.out.println("time " + times[count]);
+        System.out.println("time " + times[nums[count]]); //////TESTING REMOVE
         count++;
         
         if(count > 5) {
             //print to file
             try{
-                BufferedWriter out = new BufferedWriter(new FileWriter("FittsLawOutput.txt"));
-                    out.write("Entry " + System.currentTimeMillis() + "\n\t");
+                BufferedWriter out = new BufferedWriter(new FileWriter("FittsLawOutput.txt", true));
+                    out.write("New Entry " + System.currentTimeMillis() + "\n\t");
                     for(int i = 0; i < 6; i++) {
                         out.write(times[i] + "\n\t");
                     }
